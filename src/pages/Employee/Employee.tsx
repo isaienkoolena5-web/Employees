@@ -1,40 +1,41 @@
-
 import { useContext } from "react";
-import { EmployeeContext } from "../../components/LayoutEmployee/NameContext";
-import { InfoBlock, InfoCard, InfoLabel, InfoValue } from "./style";
 
-export default function Employees() {
-  const { employees } = useContext(EmployeeContext);
+import { Card, Field, Label, PageWrapper, Value } from "./styles";
+import { EmployeeLayoutContext } from "../../components/EmployeeLayout/EmployeeLayout";
 
-  if (!employees || employees.length === 0) {
-    return <p>No employees found.</p>; // Basic empty state
+export const Employee = () => {
+  const { employeeData } = useContext(EmployeeLayoutContext);
+
+  if (!employeeData) {
+    return (
+      <PageWrapper>
+        <Card>
+          <Label>No employee data</Label>
+        </Card>
+      </PageWrapper>
+    );
   }
 
   return (
-    <>
-      {employees.map((emp, index) => (
-        <InfoCard key={emp.id ?? index} $isHidden={false}> {/* Prefer emp.id if available */}
-          <InfoBlock>
-            <InfoLabel>Name</InfoLabel>
-            <InfoValue>{emp.name}</InfoValue>
-          </InfoBlock>
-
-          <InfoBlock>
-            <InfoLabel>Surname</InfoLabel>
-            <InfoValue>{emp.surname}</InfoValue>
-          </InfoBlock>
-
-          <InfoBlock>
-            <InfoLabel>Age</InfoLabel>
-            <InfoValue>{emp.age}</InfoValue>
-          </InfoBlock>
-
-          <InfoBlock>
-            <InfoLabel>Job Position</InfoLabel>
-            <InfoValue>{emp.job || "-"}</InfoValue>
-          </InfoBlock>
-        </InfoCard>
-      ))}
-    </>
+    <PageWrapper>
+      <Card>
+        <Field>
+          <Label>Name</Label>
+          <Value>{employeeData?.name}</Value>
+        </Field>
+        <Field>
+          <Label>Surname</Label>
+          <Value>{employeeData?.surname}</Value>
+        </Field>
+        <Field>
+          <Label>Age</Label>
+          <Value>{employeeData?.age}</Value>
+        </Field>
+        <Field>
+          <Label>Job Position</Label>
+          <Value>{employeeData?.jobPosition || "-"}</Value>
+        </Field>
+      </Card>
+    </PageWrapper>
   );
-}
+};
